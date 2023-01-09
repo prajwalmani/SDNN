@@ -40,6 +40,7 @@ import time
 from collections import deque
 import matplotlib.pyplot as plt
 import matplotlib
+import glob
 
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -275,7 +276,7 @@ if __name__ == '__main__':
     input_path = 'inputs'  # edit your input path
     output_path = 'outputs'  # edit your output path
 
-    for file in os.listdir(input_path):
+    for file in glob.glob1(input_path,"*.fts"):
         print('---------- working on', file, '----------')
         fits_file = os.path.join(input_path, file)
         hdu = fits.open(fits_file)
