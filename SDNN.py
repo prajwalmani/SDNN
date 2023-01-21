@@ -33,7 +33,7 @@ simplefilter(action='ignore', category=FutureWarning)
 from astropy.io import fits
 import math
 import os
-
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from tensorflow.keras.layers import *
 from tensorflow.keras.models import *
 from tensorflow.keras.optimizers import *
@@ -44,7 +44,6 @@ import numpy as np
 import glob
 import logging
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
 try:
