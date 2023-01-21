@@ -33,13 +33,13 @@ simplefilter(action='ignore', category=FutureWarning)
 from astropy.io import fits
 import math
 import os
-from keras.layers import *
-from keras.models import *
-from keras.optimizers import *
+from tensorflow.keras.layers import *
+from tensorflow.keras.models import *
+from tensorflow.keras.optimizers import *
 import time
 from collections import deque
 import matplotlib.pyplot as plt
-import matplotlib
+import numpy as np
 import glob
 
 
@@ -50,6 +50,7 @@ try:
 except Exception as e:
     print('turn off loggins is not supported')
 
+tf.compat.v1.disable_eager_execution()
 
 def read_data(data):
     print('Loading test data...')
@@ -85,7 +86,6 @@ def read_data(data):
     print('Done loading...')
     return X, spectrum_height, spectrum_width
 
-
 def SDNN():
     '''with larger dense layer size, 240 '''
     num_channels = 4
@@ -94,7 +94,7 @@ def SDNN():
     for i in range(num_channels):
         # Slicing the ith channel:
         out = Lambda(lambda x: x[:, :, i])(input)
-        out = Lambda(lambda x: K.expand_dims(out, -1))(out)
+        out = Lambda(lambda x: tf.keras.backend.expand_dims(out, -1))(out)
         conv0_1 = Conv1D(filters=64, kernel_size=3, padding='same', activation='relu')(out)
         conv0_2 = Conv1D(filters=64, kernel_size=3, padding='same', activation='relu')(conv0_1)
         conv0 = MaxPool1D(pool_size=2)(conv0_2)
@@ -137,7 +137,7 @@ def SDNN():
     # model.summary()
     return model
 
-
+# @tf.function
 def load_model():
     print('Loading SDNN model...')
     model_file = 'pretrained_model.h5'
