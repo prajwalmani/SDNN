@@ -33,6 +33,7 @@ simplefilter(action='ignore', category=FutureWarning)
 from astropy.io import fits
 import math
 import os
+
 from tensorflow.keras.layers import *
 from tensorflow.keras.models import *
 from tensorflow.keras.optimizers import *
@@ -41,16 +42,20 @@ from collections import deque
 import matplotlib.pyplot as plt
 import numpy as np
 import glob
-
+import logging
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
+
 try:
     import tensorflow as tf
-    tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+    logger = tf.get_logger()
+    logger.setLevel(logging.ERROR)
 except Exception as e:
     print('turn off loggins is not supported')
 
 tf.compat.v1.disable_eager_execution()
+
 
 def read_data(data):
     print('Loading test data...')
